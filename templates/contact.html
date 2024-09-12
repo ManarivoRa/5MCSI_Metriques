@@ -169,6 +169,7 @@
         document.getElementById("submit-btn").addEventListener("click", function(event) {
             event.preventDefault(); // Empêche l'envoi immédiat du formulaire
             this.classList.add("clicked"); // Ajoute la classe qui déclenche l'animation
+             window.location.href = 'https://randriamaromanana.alwaysdata.net/contact/';
 
             setTimeout(() => {
                 this.closest('form').submit(); // Envoie le formulaire après un délai
