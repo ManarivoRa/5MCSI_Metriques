@@ -1,1 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commits per Minute</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Commits per Minute</h1>
+    <canvas id="commitsChart" width="400" height="200"></canvas>
+
+    <script>
+        $(document).ready(function() {
+            // Fetch commits data from GitHub API
+            $.getJSON('https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits', function(data) {
+                const commitsByMinute = {};
+
+                data.forEach(commit => {
+                    const date = new Date(commit.commit.author.date);
+                    const minute = date.getMinutes();
+                    
+                    if (!commitsByMinute[minute]) {
+                        commitsByMinute[minute] = 0;
+                    }
+                    commitsByMinute[minute]++;
+                });
+
+                const minutes = Object.keys(commitsByMinute).sort((a, b) => a - b);
+                const commitCounts = minutes.map(minute => commitsByMinute[minute] || 0);
+
+                // Create the chart
+                const ctx = document.getElementById('commitsChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: minutes,
+                        datasets: [{
+                            label: 'Commits per Minute',
+                            data: commitCounts,
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Minute'
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Number of Commits'
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
 
