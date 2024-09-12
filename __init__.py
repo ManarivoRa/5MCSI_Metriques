@@ -15,7 +15,7 @@ def hello_world():
 
 
 @app.route("/contact/")
-def MaPremiereAPI():
+def contact():
     return "<h2>Ma page de contact</h2>"
 
 
