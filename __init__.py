@@ -15,7 +15,7 @@ def hello_world():
 
 
 @app.route("/contact/")
-def contact():
+def mapagecontact():
     return "<h2>Ma page de contact</h2>"
 
 
@@ -44,7 +44,7 @@ def mongraphique():
 
 
 @app.route("/histogramme/")
-def mongraphique():
+def monhistogramme():
     return render_template("histogramme.html")
 
   
