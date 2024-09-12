@@ -8,7 +8,6 @@
 </body>
 </html>
 
-
 <html>
   <head>
     <meta charset="UTF-8" />
@@ -47,4 +46,45 @@
     })
 }
     </script>
+
+    
+    <h2>Mon Graphique</h2>
+    <div id="chart_div"></div>
+    <script>
+      google.charts.load('current', { packages: ['corechart'] });
+      google.charts.setOnLoadCallback(drawBackgroundColor);
+      
+      function drawBackgroundColor() {
+        function drawChart(data) {
+          // Convertir les données récupérées en un tableau utilisable par Google Charts
+          var dataTable = new google.visualization.DataTable();
+          dataTable.addColumn('string', 'Date');
+          dataTable.addColumn('number', 'Valeur');
+          data.results.forEach(entry => {
+            var date = new Date(entry.Jour * 1000);
+            dataTable.addRow([date.toLocaleDateString(), entry.temp]);
+          });
+          
+          // Configurer les options de l'histogramme
+          var options = {
+            title: 'Évolution des températures de la ville de Tawarano',
+            legend: { position: 'bottom' },
+            hAxis: { title: 'Date' },
+            vAxis: { title: 'Température' },
+            bar: { groupWidth: '95%' }
+          };
+          
+          var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+          chart.draw(dataTable, options);
+        }
+        
+        // Récupération de données depuis notre API /tawarano/
+        fetch('/tawarano/')
+          .then(response => response.json())
+          .then(data => {
+            drawChart(data);
+          });
+      }
+    </script>
   </body>
+</html>
