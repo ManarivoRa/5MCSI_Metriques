@@ -58,6 +58,12 @@
                                 title: {
                                     display: true,
                                     text: 'Number of Commits'
+                                },
+                                ticks: {
+                                    // Ensure that the ticks are integers
+                                    callback: function(value) {
+                                        return Number.isInteger(value) ? value : '';
+                                    }
                                 }
                             }
                         }
@@ -68,4 +74,3 @@
     </script>
 </body>
 </html>
-
