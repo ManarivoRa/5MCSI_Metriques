@@ -71,42 +71,6 @@ def fetch_commits():
     return response.json()
 
 
-
-
-
-
-API_KEY = '8ee609855bac79e1c36c3766701dcf90622d68855d687bfb6def45f46396d812'
-
-# URL de l'API SerpAPI pour Google Flights
-url = 'https://serpapi.com/search.json'
-
-# Fonction pour obtenir les vols
-def get_flights():
-    params = {
-        'engine': 'google_flights',
-        'departure_id': 'CDG',  # ID d'aéroport pour CDG
-        'arrival_id': 'LAX',  # Exemple d'aéroport d'arrivée (Los Angeles)
-        'outbound_date': '2024-10-09',  # Date de départ
-        'type': '0',  # 0 pour aller simple
-        'api_key': API_KEY
-    }
-
-    response = requests.get(url, params=params)
-    if response.status_code == 200:
-        return response.json().get('flights_results', [])
-    else:
-        print(f"Erreur: {response.status_code}, {response.text}")
-        return []
-
-@app.route('/vacance/')
-def vacance():
-    flights = get_flights()  # Obtient les résultats des vols
-    return render_template("index.html", flights=flights)
-
-
-
-
-
   
 if __name__ == "__main__":
   app.run(debug=True)
